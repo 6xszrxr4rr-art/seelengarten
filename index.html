@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#a8c8a2" />
+  <title>Seelengarten</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f6f1e7;
+      --bg-grad: radial-gradient(1200px 800px at 10% -10%, #eadcc5, transparent 60%),
+                 radial-gradient(900px 700px at 100% 10%, #dfe9d5, transparent 55%),
+                 linear-gradient(180deg, #f6f1e7, #efe7d5);
+      --fg: #33322c;
+      --fg-soft: #5a564a;
+      --muted: #8a8474;
+      --card: #fffaf0;
+      --card-border: rgba(0,0,0,0.05);
+      --accent: #8aa87f;
+      --accent-soft: #d9ead3;
+      --shadow: 0 10px 30px rgba(60,50,30,0.10);
+      --radius: 22px;
+      --font-body: "Lora", Georgia, serif;
+      --font-display: "Cormorant Garamond", "Lora", Georgia, serif;
+    }
+    body[data-theme="dark"] {
+      --bg: #14141a;
+      --bg-grad: radial-gradient(1200px 800px at 10% -10%, #1e2a22, transparent 60%),
+                 radial-gradient(900px 700px at 100% 10%, #1b1c2a, transparent 55%),
+                 linear-gradient(180deg, #14141a, #0f0f14);
+      --fg: #e8e4d6;
+      --fg-soft: #bcb7a6;
+      --muted: #7a7667;
+      --card: #1d1d25;
+      --card-border: rgba(255,255,255,0.06);
+      --accent: #8aa87f;
+      --accent-soft: #2b3a2e;
+      --shadow: 0 12px 30px rgba(0,0,0,0.35);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-body);
+      color: var(--fg);
+      background: var(--bg);
+      background-image: var(--bg-grad);
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    h1, h2, h3 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      margin: 0;
+    }
+
+    header.app-header {
+      padding: calc(env(safe-area-inset-top) + 16px) 20px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    #app-title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-style: italic;
+      color: var(--fg);
+      letter-spacing: 0.03em;
+    }
+    .header-tools { display: flex; gap: 8px; }
+    .tool-btn {
+      border: 1px solid var(--card-border);
+      background: var(--card);
+      color: var(--fg-soft);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .tool-btn:active { transform: scale(0.97); }
+
+    .rank-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      box-shadow: var(--shadow);
+    }
+    .rank-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 14px;
+      color: var(--fg-soft);
+    }
+    #rank-name {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-style: italic;
+      color: var(--fg);
+    }
+    #points-label .points-num {
+      font-variant-numeric: tabular-nums;
+      font-weight: 500;
+    }
+    .rank-bar {
+      height: 6px;
+      background: var(--accent-soft);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .rank-bar-inner {
+      height: 100%;
+      background: var(--accent);
+      width: 0%;
+      transition: width 1.2s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 6px;
+      padding: 0 14px;
+      margin-top: 6px;
+    }
+    .tabs button {
+      padding: 12px 8px;
+      border: 1px solid var(--card-border);
+      background: transparent;
+      color: var(--fg-soft);
+      border-radius: 999px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .tabs button.active {
+      background: var(--card);
+      color: var(--fg);
+      box-shadow: var(--shadow);
+    }
+
+    main#view {
+      padding: 18px 16px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .card {
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .card:active { transform: scale(0.99); }
+    .landscape-card {
+      position: relative;
+      min-height: 180px;
+    }
+    .landscape-card .card-inner {
+      padding: 22px 22px 20px;
+      backdrop-filter: blur(0px);
+    }
+    .landscape-card .landscape-name {
+      font-size: 28px;
+      font-style: italic;
+      color: #2d2b22;
+      text-shadow: 0 1px 2px rgba(255,255,255,0.3);
+    }
+    body[data-theme="dark"] .landscape-card .landscape-name {
+      color: #f1ecdd;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    }
+    .landscape-card .landscape-intro {
+      font-size: 15px;
+      color: #3b382b;
+      line-height: 1.5;
+      margin: 6px 0 14px;
+      max-width: 44ch;
+    }
+    body[data-theme="dark"] .landscape-card .landscape-intro {
+      color: #dedac9;
+    }
+    .landscape-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: #40402f;
+      letter-spacing: 0.02em;
+    }
+    body[data-theme="dark"] .landscape-meta { color: #e7e2d0; }
+    .landscape-meta .badge {
+      background: rgba(255,255,255,0.55);
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+    }
+    body[data-theme="dark"] .landscape-meta .badge {
+      background: rgba(0,0,0,0.35);
+    }
+    .landscape-card.locked {
+      filter: grayscale(0.4) brightness(0.92);
+      cursor: default;
+    }
+    .landscape-card.locked .card-inner { opacity: 0.75; }
+    .lock {
+      font-size: 14px;
+    }
+
+    /* Landscape detail */
+    .back-btn {
+      align-self: flex-start;
+      background: transparent;
+      border: none;
+      color: var(--fg-soft);
+      font-family: var(--font-body);
+      font-size: 15px;
+      cursor: pointer;
+      padding: 2px 0;
+    }
+    .scene {
+      position: relative;
+      border-radius: var(--radius);
+      min-height: 340px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      padding: 22px 22px 24px;
+      color: #2d2b22;
+    }
+    body[data-theme="dark"] .scene { color: #ecead9; }
+    .scene-name {
+      font-size: 30px;
+      font-style: italic;
+    }
+    .scene-intro {
+      font-size: 15px;
+      margin: 8px 0 0;
+      max-width: 46ch;
+      line-height: 1.5;
+      color: #3b382b;
+    }
+    body[data-theme="dark"] .scene-intro { color: #ddd9c8; }
+
+    .gifts-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .gift-dot {
+      pointer-events: auto;
+      position: absolute;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      padding: 0;
+    }
+    .dot-core {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,245,210,0.95), rgba(255,245,210,0.0) 70%);
+      animation: pulse 3.4s ease-in-out infinite;
+    }
+    .rarity-rare .dot-core {
+      background: radial-gradient(circle, rgba(240,220,255,0.95), rgba(240,220,255,0.0) 70%);
+      animation-duration: 4.2s;
+    }
+    .rarity-precious .dot-core {
+      background: radial-gradient(circle, rgba(255,210,230,0.95), rgba(255,210,230,0.0) 70%);
+      animation-duration: 5s;
+    }
+    .dot-icon {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .gift-dot.found .dot-core {
+      animation: none;
+      background: radial-gradient(circle, rgba(255,255,255,0.5), rgba(255,255,255,0) 70%);
+    }
+    .gift-dot.found .dot-icon { opacity: 1; }
+    @keyframes pulse {
+      0%, 100% { transform: scale(0.85); opacity: 0.55; }
+      50%      { transform: scale(1.25); opacity: 1; }
+    }
+
+    .landscape-collection {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 14px;
+      color: var(--fg-soft);
+      cursor: pointer;
+    }
+    .chip.shadow {
+      color: var(--muted);
+      font-style: italic;
+      cursor: default;
+      background: transparent;
+    }
+    .chip .chip-icon { font-size: 18px; }
+
+    /* Modal */
+    #modal {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 100;
+    }
+    #modal.open { pointer-events: auto; }
+    #modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(20,15,10,0.35);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+    #modal.open #modal-backdrop { opacity: 1; }
+    #modal-content {
+      position: relative;
+      width: 100%;
+      max-width: 520px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-top-left-radius: 28px;
+      border-top-right-radius: 28px;
+      padding: 22px 22px calc(22px + env(safe-area-inset-bottom));
+      max-height: 86vh;
+      overflow-y: auto;
+      transform: translateY(30px);
+      opacity: 0;
+      transition: transform 0.45s cubic-bezier(.2,.8,.2,1), opacity 0.4s ease;
+      box-shadow: 0 -20px 60px rgba(0,0,0,0.2);
+    }
+    @media (min-width: 640px) {
+      #modal { align-items: center; }
+      #modal-content {
+        border-radius: var(--radius);
+        transform: translateY(20px) scale(0.98);
+      }
+    }
+    #modal.open #modal-content { transform: none; opacity: 1; }
+
+    .gift-title {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 6px;
+    }
+    .gift-icon-big {
+      font-size: 38px;
+      line-height: 1;
+    }
+    .gift-title h3 {
+      font-size: 26px;
+      font-style: italic;
+    }
+    .rarity-tag {
+      display: inline-block;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.04em;
+      text-transform: lowercase;
+      margin-bottom: 12px;
+    }
+    .rarity-tag.rarity-common   { background: #e7ebd8; color: #56633c; }
+    .rarity-tag.rarity-rare     { background: #e1d5ec; color: #564278; }
+    .rarity-tag.rarity-precious { background: #f3d5dc; color: #7a3a52; }
+    body[data-theme="dark"] .rarity-tag.rarity-common   { background: #2e3627; color: #c3d2a5; }
+    body[data-theme="dark"] .rarity-tag.rarity-rare     { background: #2f2a3a; color: #d3c3e8; }
+    body[data-theme="dark"] .rarity-tag.rarity-precious { background: #3a2a30; color: #e8c3cf; }
+
+    .label {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 14px 0 4px;
+    }
+    .flow {
+      font-size: 16.5px;
+      line-height: 1.65;
+      color: var(--fg);
+      margin: 0;
+    }
+    .flow.story {
+      font-family: var(--font-display);
+      font-size: 19px;
+      line-height: 1.6;
+      font-style: italic;
+    }
+    .audio-hint {
+      margin-top: 10px;
+      font-size: 14px;
+      color: var(--muted);
+      font-style: italic;
+    }
+    audio { width: 100%; margin-top: 10px; }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+    }
+    .btn-primary, .btn-ghost {
+      flex: 1;
+      min-width: 130px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      cursor: pointer;
+      border: 1px solid var(--card-border);
+      transition: transform 0.2s ease;
+    }
+    .btn-primary:active, .btn-ghost:active { transform: scale(0.98); }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: transparent;
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--fg-soft);
+    }
+    .btn-ghost[disabled] { opacity: 0.6; cursor: default; }
+
+    /* Book */
+    .book { display: flex; flex-direction: column; gap: 18px; }
+    .book-section h3 {
+      font-size: 22px;
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+    .book-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px;
+    }
+    .gift-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 14px 12px;
+      text-align: center;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease;
+    }
+    .gift-card:active { transform: scale(0.98); }
+    .gift-card.shadow {
+      opacity: 0.55;
+      cursor: default;
+      box-shadow: none;
+    }
+    .gift-card-icon {
+      font-size: 30px;
+      line-height: 1;
+    }
+    .gift-card-title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 16px;
+    }
+    .gift-card-rarity {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      letter-spacing: 0.04em;
+    }
+    .gift-card-rarity.rarity-common   { background: #e7ebd8; color: #56633c; }
+    .gift-card-rarity.rarity-rare     { background: #e1d5ec; color: #564278; }
+    .gift-card-rarity.rarity-precious { background: #f3d5dc; color: #7a3a52; }
+    body[data-theme="dark"] .gift-card-rarity.rarity-common   { background: #2e3627; color: #c3d2a5; }
+    body[data-theme="dark"] .gift-card-rarity.rarity-rare     { background: #2f2a3a; color: #d3c3e8; }
+    body[data-theme="dark"] .gift-card-rarity.rarity-precious { background: #3a2a30; color: #e8c3cf; }
+
+    /* Wind */
+    .wind-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 26px 22px;
+      box-shadow: var(--shadow);
+    }
+    .wind-card h2 {
+      font-size: 26px;
+      font-style: italic;
+    }
+    .wind-hint {
+      color: var(--fg-soft);
+      font-size: 14.5px;
+      margin: 6px 0 18px;
+      line-height: 1.5;
+    }
+    .wind-text {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--fg);
+      border-left: 2px solid var(--accent);
+      padding: 8px 0 8px 16px;
+      margin: 0 0 18px;
+    }
+    .wind-actions { display: flex; }
+    .wind-actions .btn-primary { flex: 1; }
+    .streak {
+      margin-top: 14px;
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* Celebration */
+    .celebration {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(255,250,235,0.96), rgba(255,245,220,0.92));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      z-index: 200;
+      pointer-events: none;
+    }
+    body[data-theme="dark"] .celebration {
+      background: radial-gradient(circle at 50% 50%, rgba(30,30,40,0.96), rgba(15,15,20,0.94));
+    }
+    .celebration.visible { opacity: 1; }
+    .celebration-inner {
+      text-align: center;
+      transform: translateY(12px);
+      transition: transform 1.2s cubic-bezier(.2,.8,.2,1);
+    }
+    .celebration.visible .celebration-inner { transform: none; }
+    .celebration-bloom {
+      font-size: 72px;
+      color: var(--accent);
+      animation: bloom 2.4s ease-in-out infinite;
+    }
+    @keyframes bloom {
+      0%, 100% { transform: scale(0.9); opacity: 0.7; }
+      50%      { transform: scale(1.12); opacity: 1; }
+    }
+    .celebration-hint {
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 8px 0 4px;
+    }
+    .celebration-rank {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 40px;
+      color: var(--fg);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dot-core { animation: none; }
+      .celebration-bloom { animation: none; }
+      .rank-bar-inner { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-row">
+      <h1 id="app-title">Seelengarten</h1>
+      <div class="header-tools">
+        <button id="theme-toggle" class="tool-btn" aria-label="Theme">☾</button>
+        <button id="lang-toggle" class="tool-btn" aria-label="Language">EN</button>
+      </div>
+    </div>
+    <div class="rank-wrap">
+      <div class="rank-line">
+        <span id="rank-name">Suchende</span>
+        <span id="points-label"><span class="points-num">0</span></span>
+      </div>
+      <div class="rank-bar"><div class="rank-bar-inner" id="rank-bar-inner"></div></div>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button data-tab="landscapes" class="active"><span id="tab-landscapes-label">Landschaften</span></button>
+      <button data-tab="book"><span id="tab-book-label">Sammelbuch</span></button>
+      <button data-tab="wind"><span id="tab-wind-label">Windgeschenk</span></button>
+    </nav>
+  </header>
+
+  <main id="view"></main>
+
+  <div id="modal" aria-hidden="true">
+    <div id="modal-backdrop"></div>
+    <div id="modal-content">
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
