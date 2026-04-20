@@ -127,6 +127,7 @@ const DATA = {
           icon: "🪨",
           rarity: "common",
           type: "stone",
+          x: 26, y: 78,
           de: {
             title: "Moosstein",
             scent: "Nach Erde nach warmem Regen.",
@@ -143,6 +144,7 @@ const DATA = {
           icon: "🪶",
           rarity: "rare",
           type: "feather",
+          x: 72, y: 72,
           de: {
             title: "Eulenfeder",
             ritual: "Atme vier Schläge ein durch die Nase. Halte vier. Atme sechs aus durch den Mund. Sechs Mal. Dann lege die Feder innerlich hin."
@@ -157,6 +159,7 @@ const DATA = {
           icon: "📖",
           rarity: "precious",
           type: "book",
+          x: 50, y: 82,
           de: {
             title: "Die Geduld des Farns",
             story: "Ein junger Farn wollte lieber Eiche sein. Er streckte sich, bis ihm die Blätter zitterten. Ein alter Farn daneben sagte nichts, nur — schau — wie schön dein Grün gerade ist, gerade jetzt. Am Abend war der junge Farn noch immer Farn, und das war genug."
@@ -171,6 +174,7 @@ const DATA = {
           icon: "🕯️",
           rarity: "common",
           type: "candle",
+          x: 14, y: 66,
           de: {
             title: "Wurzellicht",
             glow: "Stell es an eine Stelle, an der du morgens Tee trinkst. Es erinnert dich daran, dass du Wurzeln hast."
@@ -185,6 +189,7 @@ const DATA = {
           icon: "🎧",
           rarity: "rare",
           type: "audio",
+          x: 82, y: 40,
           audio: "audio/song-morgennebel.mp3",
           de: {
             title: "Morgennebel",
@@ -217,6 +222,7 @@ const DATA = {
           icon: "🐚",
           rarity: "common",
           type: "shell",
+          x: 32, y: 84,
           de: {
             title: "Hörmuschel",
             whisper: "Leg sie ans Ohr. Das, was du hörst, ist nicht das Meer. Es ist dein eigenes Blut, und es ist dir treu."
@@ -231,6 +237,7 @@ const DATA = {
           icon: "🪨",
           rarity: "rare",
           type: "stone",
+          x: 72, y: 78,
           de: {
             title: "Glattstein",
             scent: "Nach Salz und nach Sonne auf Haut.",
@@ -247,6 +254,7 @@ const DATA = {
           icon: "🪶",
           rarity: "common",
           type: "feather",
+          x: 50, y: 74,
           de: {
             title: "Möwenfeder",
             ritual: "Leg eine Hand auf den Bauch. Atme drei Wellen lang — ein, und aus. Ein, und aus. Ein, und aus. Keine Hast."
@@ -261,6 +269,7 @@ const DATA = {
           icon: "🎧",
           rarity: "precious",
           type: "audio",
+          x: 18, y: 82,
           audio: "audio/song-flut.mp3",
           de: {
             title: "Flut",
@@ -276,6 +285,7 @@ const DATA = {
           icon: "🌸",
           rarity: "rare",
           type: "bloom",
+          x: 86, y: 68,
           de: {
             title: "Strandrose",
             petal: "Sie wächst, wo der Wind am härtesten ist. Das darfst du auch."
@@ -307,6 +317,7 @@ const DATA = {
           icon: "🪨",
           rarity: "precious",
           type: "stone",
+          x: 30, y: 82,
           de: {
             title: "Granitkern",
             scent: "Nach kaltem Stein und nach sehr altem Schnee.",
@@ -323,6 +334,7 @@ const DATA = {
           icon: "🪶",
           rarity: "common",
           type: "feather",
+          x: 62, y: 76,
           de: {
             title: "Adlerfeder",
             ritual: "Stell dich aufrecht. Atme ein, als würdest du den Blick vergrößern. Atme aus, als ließest du etwas Altes los. Sieben Atemzüge."
@@ -337,6 +349,7 @@ const DATA = {
           icon: "📖",
           rarity: "rare",
           type: "book",
+          x: 18, y: 72,
           de: {
             title: "Die Schneegrenze",
             story: "Ein Wanderer fragte den Berg, warum er so still sei. Der Berg sagte: Ich rede jeden Morgen. Du hast es nur nicht gehört, weil du dich selbst so laut gemacht hast. Der Wanderer setzte sich. Am Abend wusste er, wie Berge reden."
@@ -351,6 +364,7 @@ const DATA = {
           icon: "🎧",
           rarity: "rare",
           type: "audio",
+          x: 78, y: 70,
           audio: "audio/song-grat.mp3",
           de: {
             title: "Auf dem Grat",
@@ -366,6 +380,7 @@ const DATA = {
           icon: "🕯️",
           rarity: "common",
           type: "candle",
+          x: 46, y: 86,
           de: {
             title: "Alpenglühen",
             glow: "Zünde es an, wenn der Tag dich kalt gemacht hat. Zwölf Minuten genügen."
@@ -397,6 +412,7 @@ const DATA = {
           icon: "🕯️",
           rarity: "rare",
           type: "candle",
+          x: 24, y: 78,
           de: {
             title: "Sternenlicht",
             glow: "Setz es ans Fenster. Lass es lange brennen, auch wenn du längst schläfst."
@@ -411,6 +427,7 @@ const DATA = {
           icon: "🌸",
           rarity: "common",
           type: "bloom",
+          x: 64, y: 82,
           de: {
             title: "Mondblüte",
             petal: "Sie öffnet sich erst, wenn keiner mehr zusieht. Du darfst das auch."
@@ -425,6 +442,7 @@ const DATA = {
           icon: "🪨",
           rarity: "precious",
           type: "stone",
+          x: 44, y: 86,
           de: {
             title: "Nachtspiegel",
             scent: "Nach kühlem Gras und einer Spur von Rauch.",
@@ -441,6 +459,7 @@ const DATA = {
           icon: "🪶",
           rarity: "common",
           type: "feather",
+          x: 86, y: 74,
           de: {
             title: "Käuzchenfeder",
             ritual: "Lege dich flach. Atme in den Bauch, bis das Atmen dich atmet. Bleib so, bis du vergessen hast, wie spät es ist."
@@ -455,6 +474,7 @@ const DATA = {
           icon: "🎧",
           rarity: "precious",
           type: "audio",
+          x: 12, y: 72,
           audio: "audio/song-wiegenhimmel.mp3",
           de: {
             title: "Wiegenhimmel",

@@ -186,9 +186,8 @@ function renderLandscapeDetail(lid) {
   $("#back-btn").addEventListener("click", () => { currentLandscapeId = null; render(); });
 
   const layer = $("#gifts-layer");
-  // Position pulsing lights pseudo-randomly but deterministically per gift id
   ls.gifts.forEach((g, i) => {
-    const { x, y } = positionFor(g.id, i);
+    const { x, y } = positionFor(g, i);
     const found = !!state.discovered[g.id];
     const dot = document.createElement("button");
     dot.className = "gift-dot" + (found ? " found" : "") + " rarity-" + g.rarity;
@@ -216,9 +215,10 @@ function renderLandscapeDetail(lid) {
   });
 }
 
-function positionFor(id, i) {
-  // Stable pseudo-random from id
+function positionFor(g) {
+  if (typeof g.x === "number" && typeof g.y === "number") return { x: g.x, y: g.y };
   let h = 0;
+  const id = g.id || "";
   for (let c = 0; c < id.length; c++) h = (h * 31 + id.charCodeAt(c)) | 0;
   const x = 12 + (Math.abs(h) % 76);
   const y = 28 + (Math.abs(h >> 7) % 55);
