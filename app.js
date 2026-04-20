@@ -44,6 +44,7 @@ let lang = localStorage.getItem(LANG_KEY) || (navigator.language && navigator.la
 let theme = localStorage.getItem(THEME_KEY) || (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
 let currentTab = "landscapes";
 let currentLandscapeId = null;
+let currentPage = null; // "about" | "apps" | "privacy" | "legal" | null
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
@@ -110,6 +111,11 @@ function render() {
   document.documentElement.lang = lang;
   renderHeader();
   renderTabs();
+  renderDrawer();
+  if (currentPage) {
+    renderPage(currentPage);
+    return;
+  }
   if (currentTab === "landscapes") renderLandscapes();
   else if (currentTab === "book") renderBook();
   else if (currentTab === "wind") renderWind();
@@ -386,14 +392,108 @@ function celebrate(rankLabel) {
   }, 3200);
 }
 
+// ----- Drawer & static pages -----
+function renderDrawer() {
+  const m = DATA.menu[lang];
+  $("#drawer-title").textContent = m.open;
+  $("#drawer-close").setAttribute("aria-label", m.close);
+  const list = $("#drawer-list");
+  const items = [
+    { id: "about",   label: m.about,   glyph: "✦" },
+    { id: "apps",    label: m.apps,    glyph: "◇" },
+    { id: "privacy", label: m.privacy, glyph: "◦" },
+    { id: "legal",   label: m.legal,   glyph: "§" }
+  ];
+  list.innerHTML = "";
+  items.forEach(it => {
+    const li = document.createElement("li");
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = currentPage === it.id ? "active" : "";
+    b.innerHTML = `<span class="glyph">${it.glyph}</span><span>${it.label}</span>`;
+    b.addEventListener("click", () => {
+      currentPage = it.id;
+      closeDrawer();
+      render();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    li.appendChild(b);
+    list.appendChild(li);
+  });
+}
+
+function openDrawer() {
+  $("#drawer").classList.add("open");
+  $("#drawer").setAttribute("aria-hidden", "false");
+  $("#menu-toggle").setAttribute("aria-expanded", "true");
+}
+
+function closeDrawer() {
+  $("#drawer").classList.remove("open");
+  $("#drawer").setAttribute("aria-hidden", "true");
+  $("#menu-toggle").setAttribute("aria-expanded", "false");
+}
+
+function renderPage(id) {
+  const root = $("#view");
+  root.innerHTML = "";
+  const back = document.createElement("button");
+  back.className = "back-btn";
+  back.textContent = "← " + t("back");
+  back.addEventListener("click", () => { currentPage = null; render(); });
+  root.appendChild(back);
+
+  if (id === "apps") {
+    const page = DATA.pages.apps[lang];
+    const wrap = document.createElement("section");
+    wrap.className = "page";
+    wrap.innerHTML = `<h2>${page.title}</h2><p>${page.intro}</p>`;
+    DATA.apps.forEach(a => {
+      const link = document.createElement("a");
+      link.className = "app-link";
+      link.href = a.url;
+      link.target = "_blank";
+      link.rel = "noopener";
+      link.innerHTML = `
+        <div class="app-row">
+          <span class="app-glyph">${a.icon}</span>
+          <div>
+            <div class="app-name">${a[lang].name}</div>
+            <div class="app-desc">${a[lang].description}</div>
+          </div>
+        </div>`;
+      wrap.appendChild(link);
+    });
+    root.appendChild(wrap);
+    return;
+  }
+
+  const page = DATA.pages[id] && DATA.pages[id][lang];
+  if (!page) { currentPage = null; render(); return; }
+  const sec = document.createElement("section");
+  sec.className = "page";
+  sec.innerHTML = `<h2>${page.title}</h2>${page.body}`;
+  root.appendChild(sec);
+}
+
 // ----- Events -----
 function bind() {
   $$(".tabs button").forEach(btn => {
     btn.addEventListener("click", () => {
       currentTab = btn.dataset.tab;
       currentLandscapeId = null;
+      currentPage = null;
       render();
     });
+  });
+  $("#menu-toggle").addEventListener("click", () => {
+    const open = $("#drawer").classList.contains("open");
+    open ? closeDrawer() : openDrawer();
+  });
+  $("#drawer-close").addEventListener("click", closeDrawer);
+  $("#drawer-backdrop").addEventListener("click", closeDrawer);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") { closeDrawer(); closeModal(); }
   });
   $("#lang-toggle").addEventListener("click", () => {
     lang = lang === "de" ? "en" : "de";

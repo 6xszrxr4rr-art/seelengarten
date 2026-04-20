@@ -611,6 +611,169 @@
       color: var(--fg);
     }
 
+    /* Drawer */
+    #drawer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 150;
+    }
+    #drawer.open { pointer-events: auto; }
+    #drawer-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(20,15,10,0.32);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    #drawer.open #drawer-backdrop { opacity: 1; }
+    #drawer-panel {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: min(86vw, 340px);
+      background: var(--card);
+      border-left: 1px solid var(--card-border);
+      box-shadow: -20px 0 40px rgba(0,0,0,0.15);
+      padding: calc(env(safe-area-inset-top) + 18px) 20px 22px;
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(.2,.8,.2,1);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    #drawer.open #drawer-panel { transform: none; }
+    .drawer-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .drawer-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-style: italic;
+      color: var(--fg);
+    }
+    .drawer-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .drawer-list li button {
+      width: 100%;
+      text-align: left;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--fg-soft);
+      font-family: var(--font-body);
+      font-size: 15.5px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .drawer-list li button:hover,
+    .drawer-list li button.active {
+      background: var(--accent-soft);
+      color: var(--fg);
+    }
+    .drawer-list li button .glyph {
+      font-family: var(--font-display);
+      font-style: italic;
+      color: var(--muted);
+      width: 1.4em;
+      text-align: center;
+    }
+    .drawer-foot {
+      margin-top: auto;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+
+    /* Static pages */
+    .page {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 26px 22px;
+      box-shadow: var(--shadow);
+      line-height: 1.7;
+      color: var(--fg);
+      font-size: 15.5px;
+    }
+    .page h2 {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    .page h3 {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 19px;
+      margin: 22px 0 6px;
+      color: var(--fg);
+    }
+    .page p { margin: 0 0 10px; }
+    .page ul { margin: 0 0 10px; padding-left: 1.25em; }
+    .page li { margin: 2px 0; }
+    .page code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 13px;
+      background: var(--accent-soft);
+      padding: 1px 6px;
+      border-radius: 6px;
+    }
+    .page a { color: var(--accent); }
+    .page .muted { color: var(--muted); font-size: 13px; }
+
+    .app-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 16px 18px;
+      margin-top: 10px;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease;
+    }
+    .app-link:active { transform: scale(0.99); }
+    .app-link .app-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .app-link .app-glyph {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 30px;
+      color: var(--accent);
+      width: 38px;
+      text-align: center;
+    }
+    .app-link .app-name {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 20px;
+      color: var(--fg);
+    }
+    .app-link .app-desc {
+      font-size: 14px;
+      color: var(--fg-soft);
+      margin-top: 4px;
+      line-height: 1.5;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .dot-core { animation: none; }
       .celebration-bloom { animation: none; }
@@ -625,6 +788,7 @@
       <div class="header-tools">
         <button id="theme-toggle" class="tool-btn" aria-label="Theme">☾</button>
         <button id="lang-toggle" class="tool-btn" aria-label="Language">EN</button>
+        <button id="menu-toggle" class="tool-btn" aria-label="Menu" aria-expanded="false">☰</button>
       </div>
     </div>
     <div class="rank-wrap">
@@ -642,6 +806,18 @@
   </header>
 
   <main id="view"></main>
+
+  <aside id="drawer" aria-hidden="true">
+    <div id="drawer-backdrop"></div>
+    <nav id="drawer-panel" aria-label="Menu">
+      <div class="drawer-head">
+        <span class="drawer-title" id="drawer-title">Menü</span>
+        <button class="tool-btn" id="drawer-close" aria-label="Close">✕</button>
+      </div>
+      <ul id="drawer-list" class="drawer-list"></ul>
+      <p class="drawer-foot">Seelengarten · <span id="drawer-version">v1</span></p>
+    </nav>
+  </aside>
 
   <div id="modal" aria-hidden="true">
     <div id="modal-backdrop"></div>

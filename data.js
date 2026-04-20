@@ -106,6 +106,239 @@ const DATA = {
     }
   },
 
+  // Menüleiste / Drawer
+  menu: {
+    de: {
+      open: "Menü",
+      close: "Schließen",
+      about: "Über die App",
+      apps: "Weitere Apps",
+      privacy: "Datenschutz",
+      legal: "Impressum"
+    },
+    en: {
+      open: "Menu",
+      close: "Close",
+      about: "About",
+      apps: "More apps",
+      privacy: "Privacy",
+      legal: "Imprint"
+    }
+  },
+
+  // Liste weiterer Apps (Verlinkung). URL später füllen.
+  apps: [
+    {
+      id: "seelenimpuls",
+      url: "https://seelenimpuls.app",
+      icon: "✶",
+      de: {
+        name: "Seelenimpuls",
+        description: "Geführte Meditationen, Atemübungen und Sprachbegleitung für den Alltag."
+      },
+      en: {
+        name: "Seelenimpuls",
+        description: "Guided meditations, breathing exercises and spoken companions for daily life."
+      }
+    }
+  ],
+
+  // Statische Seiten (Platzhalter — bitte mit eigenen Daten füllen)
+  pages: {
+    about: {
+      de: {
+        title: "Über die App",
+        body: `
+<p><em>Seelengarten</em> ist eine ruhige Entdecker-App. Keine Timer, keine Verlustmechanik — nur kleine Geschenke, die bleiben, wenn du sie gefunden hast.</p>
+<p>Vier Landschaften: Stiller Wald, Weicher Strand, Weite Berge, Nachtwiese. In jeder Szene warten Steine, Federn, Bücher, Muscheln, Teelichter, Blüten und leise Lieder.</p>
+<p>Dein Fortschritt bleibt auf deinem Gerät. Nichts wird übertragen.</p>`
+      },
+      en: {
+        title: "About",
+        body: `
+<p><em>Seelengarten</em> is a quiet discovery app. No timers, no loss mechanic — only small gifts that stay once you have found them.</p>
+<p>Four landscapes: Silent Forest, Soft Beach, Wide Mountains, Night Meadow. In each scene: stones, feathers, books, shells, candles, blooms, and quiet songs.</p>
+<p>Your progress stays on your device. Nothing is transmitted.</p>`
+      }
+    },
+    apps: {
+      de: {
+        title: "Weitere Apps",
+        intro: "Kleine, ruhige Apps aus derselben Hand."
+      },
+      en: {
+        title: "More apps",
+        intro: "Small, quiet apps from the same hand."
+      }
+    },
+    privacy: {
+      de: {
+        title: "Datenschutz",
+        body: `
+<p><strong>Seelengarten</strong> ist eine installierbare Web-App (PWA), die vollständig im Browser deines Gerätes läuft. Es gibt keinen Server, der personenbezogene Daten verarbeitet.</p>
+
+<h3>1. Verantwortlicher</h3>
+<p>
+<em>[Bitte einsetzen:]</em><br>
+[Vor- und Nachname]<br>
+[Straße Hausnummer]<br>
+[PLZ Ort]<br>
+E-Mail: [deine@adresse]
+</p>
+
+<h3>2. Welche Daten werden gespeichert?</h3>
+<p>Um deinen Fortschritt zu erhalten, legt die App folgende Informationen <em>ausschließlich</em> im <code>localStorage</code> deines Browsers ab:</p>
+<ul>
+  <li>Entdeckte und angewendete Geschenke</li>
+  <li>Gesammelte Punkte und aktueller Rang</li>
+  <li>Tägliches Windgeschenk: letztes Datum und Streak</li>
+  <li>Spracheinstellung (DE/EN) und Hell-/Dunkelmodus</li>
+</ul>
+<p>Diese Daten verlassen dein Gerät nicht. Niemand außer dir kann darauf zugreifen. Du kannst sie jederzeit durch Löschen der Browserdaten oder Deinstallation der App entfernen.</p>
+
+<h3>3. Keine Cookies, keine Analytik, keine Werbung</h3>
+<p>Die App setzt keine Cookies und verwendet keine Tracking- oder Analyse-Dienste (kein Google Analytics, Matomo, Facebook Pixel, Werbe-Netzwerke o.ä.).</p>
+
+<h3>4. Schriftarten</h3>
+<p>Die App bindet aktuell die Schriften „Lora" und „Cormorant Garamond" über Google Fonts ein. Dabei wird deine IP-Adresse kurzzeitig an Server von Google (Google Ireland Ltd., Irland) übertragen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einheitlicher Darstellung). In einer kommenden Version werden diese Schriften lokal mit der App ausgeliefert, sodass keine Daten an Dritte übertragen werden.</p>
+
+<h3>5. Audio-Inhalte</h3>
+<p>Kopfhörer-Geschenke laden lokal mit der App ausgelieferte Audio-Dateien. Es gibt keinen Streaming-Server und keine externe Übertragung.</p>
+
+<h3>6. Offline-Nutzung (Service Worker)</h3>
+<p>Für den Offline-Betrieb legt dein Browser eine Kopie der App in einem Cache ab. Dies geschieht ausschließlich auf deinem Gerät.</p>
+
+<h3>7. Externe Verlinkungen</h3>
+<p>Die App kann auf andere Web-Angebote verlinken (z. B. „Weitere Apps"). Für Inhalte externer Seiten übernehmen wir keine Haftung; es gilt die dortige Datenschutzerklärung.</p>
+
+<h3>8. Deine Rechte</h3>
+<p>Da wir keine personenbezogenen Daten auf einem Server verarbeiten, entfallen klassische Auskunfts-, Berichtigungs- oder Löschanfragen an uns. Deinen Fortschritt und deine Einstellungen kannst du direkt in deinem Browser löschen. Wenn du Fragen hast, erreichst du uns unter der oben genannten Adresse.</p>
+
+<p class="muted">Stand: [Datum einsetzen]</p>`
+      },
+      en: {
+        title: "Privacy",
+        body: `
+<p><strong>Seelengarten</strong> is an installable web app (PWA) that runs entirely in your device's browser. There is no server that processes personal data.</p>
+
+<h3>1. Controller</h3>
+<p>
+<em>[Please fill in:]</em><br>
+[Full name]<br>
+[Street and number]<br>
+[Postal code and city, country]<br>
+E-mail: [your@address]
+</p>
+
+<h3>2. What is stored?</h3>
+<p>To preserve your progress, the app keeps the following data <em>only</em> in your browser's <code>localStorage</code>:</p>
+<ul>
+  <li>Discovered and used gifts</li>
+  <li>Collected points and current rank</li>
+  <li>Daily wind gift: last date and streak</li>
+  <li>Language (DE/EN) and light/dark mode</li>
+</ul>
+<p>This data never leaves your device. No one but you can access it. You can remove it any time by clearing browser data or uninstalling the app.</p>
+
+<h3>3. No cookies, no analytics, no ads</h3>
+<p>The app sets no cookies and uses no tracking or analytics services (no Google Analytics, Matomo, Facebook Pixel, ad networks, etc.).</p>
+
+<h3>4. Fonts</h3>
+<p>The app currently loads the typefaces "Lora" and "Cormorant Garamond" from Google Fonts. This briefly transmits your IP address to Google servers (Google Ireland Ltd., Ireland). Legal basis: Art. 6 (1) (f) GDPR (legitimate interest in consistent typography). A future version will ship these fonts locally so nothing is sent to third parties.</p>
+
+<h3>5. Audio</h3>
+<p>Headphone gifts play audio files shipped with the app. There is no streaming server and no external transmission.</p>
+
+<h3>6. Offline use (service worker)</h3>
+<p>For offline operation, your browser stores a copy of the app in a cache, entirely on your device.</p>
+
+<h3>7. External links</h3>
+<p>The app may link to other sites (e.g. "More apps"). We are not responsible for their content; their privacy policies apply there.</p>
+
+<h3>8. Your rights</h3>
+<p>Because we do not process personal data on any server, traditional access, rectification or deletion requests do not apply. You can clear your progress and settings directly in your browser. For questions, contact us at the address above.</p>
+
+<p class="muted">Last updated: [date]</p>`
+      }
+    },
+    legal: {
+      de: {
+        title: "Impressum",
+        body: `
+<p><em>Angaben gemäß § 5 TMG und § 18 Abs. 2 MStV. Bitte vor Veröffentlichung mit eigenen Daten füllen.</em></p>
+
+<h3>Diensteanbieter</h3>
+<p>
+[Vor- und Nachname]<br>
+[Straße Hausnummer]<br>
+[PLZ Ort]<br>
+Deutschland
+</p>
+
+<h3>Kontakt</h3>
+<p>
+E-Mail: [deine@adresse]<br>
+Telefon: [optional]
+</p>
+
+<h3>Umsatzsteuer-ID</h3>
+<p>Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG: [falls vorhanden]</p>
+
+<h3>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h3>
+<p>[Name, Anschrift wie oben]</p>
+
+<h3>Haftung für Inhalte</h3>
+<p>Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.</p>
+
+<h3>Haftung für Links</h3>
+<p>Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft.</p>
+
+<h3>Urheberrecht</h3>
+<p>Die durch den Seitenbetreiber erstellten Inhalte und Werke unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.</p>
+
+<h3>EU-Streitschlichtung</h3>
+<p>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">https://ec.europa.eu/consumers/odr</a>. Wir sind nicht verpflichtet und nicht bereit, an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>`
+      },
+      en: {
+        title: "Imprint",
+        body: `
+<p><em>Imprint according to § 5 TMG and § 18 (2) MStV (German law). Please fill in with your own data before publishing.</em></p>
+
+<h3>Provider</h3>
+<p>
+[Full name]<br>
+[Street and number]<br>
+[Postal code and city]<br>
+Germany
+</p>
+
+<h3>Contact</h3>
+<p>
+E-mail: [your@address]<br>
+Phone: [optional]
+</p>
+
+<h3>VAT ID</h3>
+<p>VAT identification number (§ 27a UStG): [if applicable]</p>
+
+<h3>Responsible for content (§ 18 (2) MStV)</h3>
+<p>[Name and address as above]</p>
+
+<h3>Liability for content</h3>
+<p>As a service provider, we are responsible for our own content on these pages in accordance with § 7 (1) TMG under the general laws. According to §§ 8 to 10 TMG, however, we are not obliged as a service provider to monitor transmitted or stored third-party information or to investigate circumstances that indicate illegal activity.</p>
+
+<h3>Liability for links</h3>
+<p>Our offer contains links to external websites of third parties, on whose content we have no influence. Therefore, we cannot assume any liability for these external contents. The respective provider or operator of the pages is always responsible for the content of the linked pages.</p>
+
+<h3>Copyright</h3>
+<p>The content and works created by the site operator on these pages are subject to German copyright law. Duplication, processing, distribution and any form of commercialisation beyond the limits of copyright require the written consent of the respective author or creator.</p>
+
+<h3>EU dispute resolution</h3>
+<p>The European Commission provides a platform for online dispute resolution (ODR): <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">https://ec.europa.eu/consumers/odr</a>. We are neither obliged nor willing to participate in a dispute resolution procedure before a consumer arbitration board.</p>`
+      }
+    }
+  },
+
   // 4 Landschaften
   landscapes: [
     {
